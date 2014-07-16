@@ -1,4 +1,47 @@
 
+
+html, body {
+  margin: 0px;
+  padding: 0px; 
+}
+
+#linguateca {
+  margin: 0px;
+  padding: 0px;
+  height: 80px;
+  background-color: #2D72D7;
+  border-bottom: solid 2px rgb(37, 94, 175);
+}
+
+#linguateca div {
+  float: right;
+  padding-right: 20px;
+  text-align: right;
+}
+
+#linguateca div a:hover {
+  text-decoration: underline;
+}
+#linguateca div a {
+  padding-top: 2px;
+  padding-bottom: 2px;
+  display: block;
+  text-decoration: none;
+  color: #ffffff;
+}
+
+#linguateca h1 {
+  color: #FFFFFF;
+  font-weight: bold;
+  margin: 0px;
+  padding-left: 20px;
+  padding-top: 20px;
+}
+
+/* -------------------------------------- */
+
+
+
 #wait { 
   text-align: center;
   margin-top: 150px;
@@ -38,23 +81,7 @@
  }
 
 
-
-body {
-  margin: 0px;
-  padding: 0px; 
-}
-
-h1 {
-  margin: 0px;
-  background-color: #eeeeee;
-  border-bottom: solid 1px #999999; 
-  padding-top: 30px;
-  padding-left: 15px;
-  padding-right: 15px;
-  margin-bottom: 20px;
-}
-
-#content {
+#content,#contents {
   margin: 10px;
 }
 
@@ -102,7 +129,3 @@ h2 {
   border-bottom: dotted 2px #999;
 }
 
-#contents {
-  margin-left: 10px;
-  margin-right: 10px;
-}
