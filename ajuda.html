@@ -1,0 +1,97 @@
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US" xml:lang="en-US">
+<head>
+<title>Distribuidor: exemplos de uso</title>
+<link href="distribuidor.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div id="header">
+  <div style="float: right; text-align: right">
+    <a style="display: block; margin: 5px;" target="_top" href="http://www.linguateca.pt/">Linguateca</a>
+    <a style="display: block; margin: 5px;" target="_top" href="http://linguateca.pt/ACDC/">AC/DC</a>    
+    <a style="display: block; margin: 5px;" href="distribuidor.pl">Voltar ao Distribuidor</a>
+  </div>
+  <h1>Distribuidor</h1></div><div id="contents"><br />
+
+<h2>O que é?</h2>
+
+
+
+<p>O distribuidor permite obter distribuições de frequência conjuntas
+em relação a um conjunto de expressões de pesquisa.</p>
+
+
+<h2>Exemplos</h2>
+
+<h3>Distribuição de nomes por género e números</h3>
+
+<p>Qual o número de substantivos num corpo? Quantos
+  destes no masculino? Quantos no feminino? O plural é aplicado mais
+  vezes para o masculino ou para o feminino?</p>
+<div style="text-align: center">
+  <tt>?pos=/N/ gen pessnum</tt>
+</div>
+<p>Nesta pesquisa temos:</p>
+<ul>
+  <li><tt>?pos=/N/</tt> é usado para selecionar apenas nomes. O ponto de interrogação
+  antes do nome do atributo indica que não deve ser usado na distribuição, mas apenas
+  como selector;</li>
+  <li><tt>gen</tt> é usado para selecionar os géneros dos vários nomes;</li>
+  <li><tt>pessnum</tt> é usado para selecionar os números dos vários nomes;</li>
+</ul>
+
+<h3>Género dos complementos diretos de... Comer</h3>
+
+<p>Considere-se o caso em que se pretende saber que um verbo (neste
+caso, <i>comer</i>) é mais usado com um complemento direto no feminino
+ou masculino. Uma expressão de pesquisa possível seria:</p>
+<div style="text-align: center">
+  <tt>lema=/comer/ gen+1</tt>
+</div>
+<p>Explicando a expressão de pesquisa:</p>
+<ul>
+  <li><tt>lema=/comer/</tt> significa que procuramos qualquer forma do lema <i>comer</i>;</li>
+  <li><tt>gen+1</tt>, significa que queremos analisar géneros, da palavra seguinte (daí o +1).
+  Neste caso não especificamos uma expressão sobre o atributo género, significando que
+  queremos procurar todos os géneros possíveis.</li>
+</ul>
+
+<h3>Distribuição de POS por autores</h3>
+
+<p>Podemos ver quais as formas gramaticais usadas por cada autor presente no corpo Vercial
+com:</p>
+<div style="text-align: center">
+   <tt>autor pos</tt>
+</div>
+
+<h3>Distribuição de cores por variantes</h3>
+
+<p>Podemos comparar o uso das cores em Portugal ou no Brasil no corpo
+ConDiv, usando uma expressão de pesquisa semelhante a:</p>
+<div style="text-align: center">
+   <tt>?sema=/cor/ variante lema </tt>
+</div>
+<p>Que é composta por:</p>
+<ul>
+  <li><tt>?sema=/cor/</tt> indica que procuramos a função semântica <i>cor</i>. O ponto
+    de interrogação indica que esta propriedade será usada apenas para a deteção de palavras
+    relevantes, mas não será usada na distribuição.</li>
+  <li><tt>variante lema</tt> indica que queremos distribuir pelo atributo <i>variante</i> e 
+    pelo atributo <i>lema</i>.</li>
+</ul>
+<p>Note-se que a ordem é relevante. O exemplo como apresentado distribui primeiro pela variante, 
+e para cada variante os vários lemas usados. Trocando a ordem teríamos, para cada lema, a sua
+  distribuição por variante.</p>
+
+<hr>
+Última alteração: 8 de março de 2013.
+<address>
+
+<a href="http://www.linguateca.pt/cgi-bin/correio/FormularioCorreio.pl?pagina=dinis2//html/acesso/ensinador/ensinador_exemplos.html&servico=Distribuidor">Coment&aacute;rios, sugest&otilde;es e perguntas sobre o Distribuidor</a>
+</address>
+
+
+</body>
+</html>

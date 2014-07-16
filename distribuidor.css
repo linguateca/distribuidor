@@ -1,0 +1,108 @@
+
+#wait { 
+  text-align: center;
+  margin-top: 150px;
+  display: block;
+}
+
+#wait img { 
+  padding: 50px;
+  border: dotted 2px #aaaaaa;
+}
+
+
+
+ th { background-color: #aaaaaa; }
+ td { background-color: #dddddd; }
+ form { margin-top: 50px; margin-bottom: 50px; }
+
+ #results {
+    border-right: solid 1px #999;
+    border-bottom: solid 1px #999;
+    margin-left: 15px;
+    border-collapse:collapse;
+ }
+ #results td {
+     margin: 0px;
+     border-top: solid 1px #999;
+     border-left: solid 1px #999;
+     padding: 3px;
+     background-color: #ffffff;
+ }
+ #results th {
+     margin: 0px;
+     padding: 3px;
+     background-color: #efefef;
+     border-top: solid 1px #999;
+     border-left: solid 1px #999;
+ }
+
+
+
+body {
+  margin: 0px;
+  padding: 0px; 
+}
+
+h1 {
+  margin: 0px;
+  background-color: #eeeeee;
+  border-bottom: solid 1px #999999; 
+  padding-top: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+  margin-bottom: 20px;
+}
+
+#content {
+  margin: 10px;
+}
+
+form {
+  margin-top: 25px; 
+  margin-bottom: 25px; 
+}
+
+#form {
+  width: 90%; margin-left: auto; margin-right: auto;
+  border: dotted 1px #999; border-collapse: collapse;
+  border-left: none; margin-bottom: 5px;
+}
+
+#form td {
+  width: 35%; text-align: left; padding: 4px;
+}
+
+#form th {
+  border-left: dotted 1px #999; text-align: right; width: 15%; 
+}
+
+input[type='text'], select {
+  padding: 3px;
+  border: solid 1px #999;
+}
+
+input[type='text']:hover, input[type='text']:focus {
+  background-color: #f0f0f0;
+}
+
+input[type='submit'] {
+  padding: 3px;
+  border: solid 1px #999;
+  background-color: #efefef;
+}
+
+input[type='submit']:hover {
+  cursor: pointer;
+  background-color: #aaaaaa;
+  color: #ffffff;
+}
+
+h2 {
+  border-bottom: dotted 2px #999;
+}
+
+#contents {
+  margin-left: 10px;
+  margin-right: 10px;
+}
