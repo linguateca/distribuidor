@@ -24,9 +24,10 @@ our $token_rx = qr{  \??
               }x;
 our $MAXHITS = 5000;
 
-my $action = param("action") || "begin";
+my  $action      = param("action") || "begin";
+our $tipo_output = param("output") || "html";
 
-if (!param("output") || param("output") ne "csv") {
+if (!param("output") || param("output") ne "tsv") {
     print full_header();
     show_form();
     if ($action eq "begin") {
@@ -49,7 +50,7 @@ if ($action ne "begin") {
         show_error();
     }
 }
-print full_footer();
+print full_footer() unless $tipo_output eq "tsv";
 
 exit 0; # just to say so...
 
@@ -136,7 +137,6 @@ sub show_results {
     _log();
 
     my $output     = `$scancorpus -q -r /home/registo $corpo $cwb_query`;
-    my $tipo_output = param("output") || "html";
 
     @query = grep { $_ !~ /^\?/ } @query;
 
@@ -156,20 +156,19 @@ sub show_results {
         $output = [map { [ get_results($_ => $regexps) ] } split /\n/ => $output];
 
         my $i = 0;
-        if ($tipo_output ne "csv") {
+        if ($tipo_output ne "tsv") {
             print p("A apresentar os $MAXHITS resultados com mais ocorrências",
                     " de um total de $t resultados.") if ($t = scalar(@$output)) > $MAXHITS;
 
             print p("Não foram encontradas ocorrências!") unless $t;
         }
 
-        if ($tipo_output ne "csv") {
+        if ($tipo_output ne "tsv") {
             print "<table id='results'>";
             print Tr(th([$query[0], 'Frequência Total', @query[1..$#query], 'Frequência Parcial', '%']));
         } else {
-            print header(-content_disposition => "attachment; filename=distribuicao.csv",
-                         -type => 'text/csv');
-            print join("," => map { "'$_'" } (@query => '#')),"\n";
+            print header(-content_disposition => "attachment; filename=distribuicao.tsv",
+                         -type => 'text/plain');
         }
         my $pl = undef;
 
@@ -182,32 +181,46 @@ sub show_results {
 
         for my $k ( @out[0..$tot] ) {
 
-            if ($tipo_output ne "csv") {
+            my $key = $k->{key};
+            my $tot = $k->{count};
+            my @hits = sort { $a->[0] cmp $b->[0] } @{$k->{hits}};
+            if ($tipo_output ne "tsv") {
                 my $nchilds = scalar(@{$k->{hits}});
-                print Tr(td( { -rowspan => $nchilds }, _protect($k->{key})),
-                         td( { -rowspan => $nchilds }, $k->{count}),
-                         td( _protect($k->{hits}[0]) ), td({-style=>"text-align: right"}, 
-                                _my_format($k->{hits}[0][-1]*100/$k->{count})));
-                shift @{$k->{hits}};
-                for my $x (@{$k->{hits}}) {
+                print Tr(td( { -rowspan => $nchilds }, _protect($key)),
+                         td( { -rowspan => $nchilds }, $tot),
+                         td( _protect($hits[0]) ), td({-style=>"text-align: right"}, 
+                                _my_format($hits[0][-1]*100/$tot)));
+                shift @hits;
+                for my $x (@hits) {
                     print Tr(td( _protect($x) ),
                              td({-style=>"text-align: right"}, _my_format($x->[-1]*100/$k->{count})));
                 }
             } else {
-                # print join("," => map { "'$_'" } @$l) => "\n";
+
+                for my $x (@hits) {
+                    my $cols = join "\t", @$x;
+                    my $rel = $hits[0][-1] * 100 / $tot;
+                    printf "%s\t%d\t%s\t%.2f\n", $key, $tot, $cols, $rel;
+                }
+     #           print join("\t", @$l, "\n");
             }
             $i++;
 
             ## $pl = $l;
         }
-        if ($tipo_output ne "csv") {
+        if ($tipo_output ne "tsv") {
             print "</table>";
             print full_footer();
         }
     }
 }
 
-sub _my_format { my $perc = shift; my $s = sprintf("%.2f%%", $perc); $s =~ s/\./,/; return $s; }
+sub _my_format {
+    my $perc = shift;
+    my $s = sprintf("%.2f%%", $perc);
+    $s =~ s/\./,/;
+    return $s;
+}
 
 sub group {
     my $output = shift;
@@ -230,7 +243,7 @@ sub show_form {
             popup_menu(-name=>'corpo', -default=>'CHAVE', -values=>[sort keys %corpora]),
             "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;",
             b('Tipo de resultado: '),
-            popup_menu(-name=>'output', -default=>'html', -values=>['html','csv']));
+            popup_menu(-name=>'output', -default=>'html', -values=>['html','tsv']));
     print p(submit(-id => 'procurar', -disabled => 'disabled',
                    -name => 'bt', -value => ' procurar '));
     print end_form;
@@ -356,12 +369,23 @@ sub my_sort {
 
 sub min { $_[0] > $_[1] ? $_[1] : $_[0] }
 
+## Se receber uma referencia (para array) retorna uma referencia para
+## array com todos os elementos protegidos.
+##
+## Se receber outra coisa, cria uma referencia de array com esse elemento,
+## invoca o _protect, e retorna de novo o primeiro elemento do array 
 sub _protect {
-   my $x = shift;
-   $x =~ s/&/&amp;/g;
-   $x =~ s/</&lt;/g;
-   $x =~ s/>/&gt;/g;
-   return $x;
+    if (ref $_[0] eq "ARRAY") {
+       return [ map { 
+                   s/&/&amp;/g;
+                   s/</&lt;/g;
+                   s/>/&gt;/g;
+                   $_;
+                }  @{$_[0]} ];
+    }
+    else {
+        return _protect([$_[0]])->[0];
+    }
 }
 
 
